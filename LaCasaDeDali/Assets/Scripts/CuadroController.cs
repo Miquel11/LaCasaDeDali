@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class CuadroController : MonoBehaviour
 {
-    public float visibilityDuration = 5f; // Duration in seconds for the object to be visible
+     public float visibilityDuration = 5f; // Duration in seconds for the object to be visible
+    public AudioClip disappearSound; // Sound to play when the Pintura disappears
 
     private GameObject pinturaObject; // Reference to the Pintura GameObject
-    private float timer = 0f;
     private bool isVisible = true;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -25,41 +26,43 @@ public class CuadroController : MonoBehaviour
             return;
         }
 
-        // Check if the object was previously hidden
-        if (!PlayerPrefs.HasKey("PinturaVisible"))
+        // Find AudioSource component within the Cuadro object
+        audioSource = GetComponentInChildren<AudioSource>();
+        if (audioSource == null)
         {
-            PlayerPrefs.SetInt("PinturaVisible", 1);
+            Debug.LogWarning("AudioSource component not found. Sound effect will not play.");
         }
-        else
-        {
-            int isVisibleInt = PlayerPrefs.GetInt("PinturaVisible");
-            isVisible = isVisibleInt == 1;
-        }
-
-        // Set initial visibility
-        SetPinturaVisibility();
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-
         // Check if the visibility duration has passed
-        if (timer >= visibilityDuration)
+        if (Time.timeSinceLevelLoad >= visibilityDuration && isVisible)
         {
-            isVisible = false;
-            SetPinturaVisibility();
+            // Only play sound and set visibility if the Pintura is currently visible
+            if (isVisible)
+            {
+                // Play the sound effect
+                PlayDisappearSound();
 
-            // Reset timer for the next time the scene is loaded
-            timer = 0f;
+                // Hide the Pintura
+                isVisible = false;
+                SetPinturaVisibility();
+            }
         }
     }
 
     void SetPinturaVisibility()
     {
         pinturaObject.SetActive(isVisible);
+    }
 
-        // Store visibility state for next scene load
-        PlayerPrefs.SetInt("PinturaVisible", isVisible ? 1 : 0);
+    void PlayDisappearSound()
+    {
+        if (audioSource != null && disappearSound != null)
+        {
+            // Play the sound effect
+            audioSource.PlayOneShot(disappearSound);
+        }
     }
 }
