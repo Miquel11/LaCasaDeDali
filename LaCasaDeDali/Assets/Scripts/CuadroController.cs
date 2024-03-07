@@ -36,20 +36,41 @@ public class CuadroController : MonoBehaviour
 
     void Update()
     {
-        // Check if the visibility duration has passed
-        if (Time.timeSinceLevelLoad >= visibilityDuration && isVisible)
+        // Hide the Pintura if its name is not "Cuadro2"
+        if (gameObject.name.Equals("CuadroMartes"))
         {
-            // Only play sound and set visibility if the Pintura is currently visible
-            if (isVisible)
+            if (Time.timeSinceLevelLoad >= visibilityDuration && GameManager.pinturaVisible)
             {
-                // Play the sound effect
-                PlayDisappearSound();
+            // Only play sound and set visibility if the Pintura is currently visible
+                if (isVisible)
+                {
+                    // Play the sound effect
+                    PlayDisappearSound();
 
-                // Hide the Pintura
-                isVisible = false;
-                SetPinturaVisibility();
+                    // Hide the Pintura
+                    isVisible = false;
+                    SetPinturaVisibility();
+                }
             }
         }
+        else{
+
+            // Check if the visibility duration has passed
+            if (Time.timeSinceLevelLoad >= visibilityDuration)
+            {
+            // Only play sound and set visibility if the Pintura is currently visible
+                if (isVisible)
+                {
+                    // Play the sound effect
+                    PlayDisappearSound();
+
+                    // Hide the Pintura
+                    isVisible = false;
+                    SetPinturaVisibility();
+                }
+            }
+        }
+        
     }
 
     void SetPinturaVisibility()
