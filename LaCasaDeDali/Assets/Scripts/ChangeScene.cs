@@ -16,7 +16,7 @@ public class ChangeScene : MonoBehaviour
         else
         {
             // If on the last scene, go back to the previous scene
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -31,7 +31,7 @@ public class ChangeScene : MonoBehaviour
         else
         {
             // If on the last scene, go back to the previous scene
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 }

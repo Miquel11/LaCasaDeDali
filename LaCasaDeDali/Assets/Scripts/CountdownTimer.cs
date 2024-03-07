@@ -23,8 +23,6 @@ public class CountdownTimer : MonoBehaviour
         {
             // Call another script or function when countdown reaches zero
             ChangeScene.TimeEnds();
-            // Call your other script or function here
-            // Example: MyOtherScript.MyFunction();
         }
     }
 
